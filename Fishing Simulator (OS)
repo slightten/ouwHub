@@ -1,0 +1,51 @@
+-- // SETTINGS \\
+
+getgenv().farm = false
+getgenv().tarnished = false
+
+-- // SETTINGS \\
+
+
+
+local function getThing()
+    local dist, thing = math.huge
+    for i,v in pairs(workspace:GetChildren()) do
+        if v:IsA"Model" and v:FindFirstChild("Bite") then
+            local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Hitbox.Position).magnitude
+            if mag < dist then 
+                dist = mag 
+                thing = v 
+            end
+        end
+    end
+    return thing
+end
+
+local function getTool()
+    for i,v in next, game.Players.LocalPlayer.Character:GetChildren() do
+        if v:IsA"Tool" then
+            return v
+        end
+    end
+end
+
+while farm do task.wait()
+    task.spawn(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getThing().Hitbox.CFrame * CFrame.new(0,20,0)
+        game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(getThing(),tostring(getTool()),true)
+        task.spawn(function()
+            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.processGameItemSold:InvokeServer("SellEverything")
+        end)
+    end)
+end
+
+task.spawn(function()
+    while tarnished do task.wait()
+        for i,v in next, game:GetService("Workspace").DroppedItems:GetChildren() do
+            if v:IsA"Model" and v:FindFirstChild("Ring") then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
+                game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.processGameItemSold:InvokeServer("SellEverything")
+            end
+        end
+    end
+end)
