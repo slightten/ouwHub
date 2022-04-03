@@ -11,6 +11,23 @@ local plr = game.Players.LocalPlayer
 local function tp(place)
     plr.Character.HumanoidRootPart.CFrame = place
 end
+miscsect:AddButton('click to join my discord',function()
+    syn.request({
+        Url = "http://127.0.0.1:6463/rpc?v=1",
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json",
+            ["Origin"] = "https://discord.com"
+        },
+        Body = game:GetService("HttpService"):JSONEncode({
+            cmd = "INVITE_BROWSER",
+            args = {
+                code = "8bmQrDT75B"
+            },
+            nonce = game:GetService("HttpService"):GenerateGUID(false)
+        }),
+     })
+end)
 
 local sect1 = tab1:CreateSector("Main", 'left')
 
