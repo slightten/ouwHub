@@ -6,4 +6,6 @@ elseif game.PlaceId == 5094651510 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/slightten/ouwHub/main/Demonfall'))()
 elseif game.PlaceId == 2753915549 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/slightten/ouwHub/main/blox%20fruits'))()
+elseif game.PlaceId == 6490016198 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/slightten/ouwHub/main/Slayer%20Tycoon'))()
 end
