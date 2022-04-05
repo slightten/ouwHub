@@ -1,0 +1,125 @@
+local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/slightten/ui-libs/main/material"))()
+
+local UI = Material.Load({
+     Title = "ouwHub",
+     Style = 2,
+     SizeX = 500,
+     SizeY = 370,
+     ColorOverrides = {
+        MainFrame = Color3.fromRGB(15,15,15),
+        Minimise = Color3.fromRGB(255,68,68),
+        MinimiseAccent = Color3.fromRGB(147,59,0),
+        Maximise = Color3.fromRGB(25,255,0),
+        MaximiseAccent = Color3.fromRGB(0,255,110),
+        NavBar = Color3.fromRGB(235,235,235),
+        NavBarAccent = Color3.fromRGB(32,32,32),
+        NavBarInvert = Color3.fromRGB(0,0,0),
+        TitleBar = Color3.fromRGB(30, 30, 30),
+        TitleBarAccent = Color3.fromRGB(255,255,255),
+        Overlay = Color3.fromRGB(30, 30, 30),
+        Banner = Color3.fromRGB(30, 30, 30),
+        BannerAccent = Color3.fromRGB(255,255,255),
+        Content = Color3.fromRGB(85,85,85),
+        Button = Color3.fromRGB(40, 40, 40),
+        ButtonAccent = Color3.fromRGB(235, 235, 235),
+        ChipSet = Color3.fromRGB(45, 45, 45),
+        ChipSetAccent = Color3.fromRGB(255, 255, 255),
+        DataTable = Color3.fromRGB(160,160,160),
+        DataTableAccent = Color3.fromRGB(45,45,45),
+        Slider = Color3.fromRGB(45,45,45),
+        SliderAccent = Color3.fromRGB(235,235,235),
+        Toggle = Color3.fromRGB(230, 230, 230),
+        ToggleAccent = Color3.fromRGB(235, 235, 235),
+        Dropdown = Color3.fromRGB(45, 45, 45),
+        DropdownAccent = Color3.fromRGB(235,235,235),
+        ColorPicker = Color3.fromRGB(10, 10, 10),
+        ColorPickerAccent = Color3.fromRGB(235,235,235),
+        TextField = Color3.fromRGB(55,55,55),
+        TextFieldAccent = Color3.fromRGB(235,235,235),
+    }
+})
+
+local plr = game.Players.LocalPlayer
+local function tp(place)
+    plr.Character.HumanoidRootPart.CFrame = place
+end
+local Page = UI.New({Title = "Main"})
+local Misc = UI.New({Title = "Misc"})
+Misc.Button({Text = 'made by ouw#7809', Callback = function()
+    setclipboard'ouw#7809'
+end})
+
+Page.Toggle({Text = "Auto Collect ALL", Callback = function(a)
+    aa = a
+    while aa do task.wait()
+        for i,v in pairs(game:GetService("Workspace").TycoonSets.Tycoons:GetDescendants()) do
+            if v:IsA"TouchTransmitter" and v.Parent.Name == "Giver" then
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
+            end
+        end
+    end
+end})
+
+local function getOwner()
+    for i,v in pairs(game:GetService("Workspace").TycoonSets.Tycoons:GetDescendants()) do
+        if v:IsA"Model" and v:FindFirstChild("Owner") then
+            if v.Owner.Value == game.Players.LocalPlayer then
+                return v
+            end
+        end
+    end
+end
+
+Page.Toggle({Text = 'Auto Buy (Annoying noise if ur poor)', Callback = function(b)
+    bb = b
+    while bb do task.wait()
+        for i,v in pairs(getOwner().Buttons:GetDescendants()) do
+            if v:IsA"TouchTransmitter" then
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
+            end
+        end
+    end
+end})
+
+local function getTree()
+    local dist, thing = math.huge
+    for i,v in pairs(workspace.Map:GetChildren()) do
+        if v:IsA"Model" and v:FindFirstChild("WoodHitPart") then
+            if v.WoodHitPart.Transparency == 0 then
+                local mag = (plr.Character.HumanoidRootPart.Position - v.WoodHitPart.Position).magnitude
+                if mag < dist then 
+                    dist = mag 
+                    thing = v 
+                end
+            end
+        end
+    end
+    return thing
+end
+
+local function hit()
+    for i,v in pairs(plr.Character:GetChildren()) do
+        if v:IsA"Tool" and v.Name == "Hatchet" or v.Name == "Pickaxe" then
+            game:GetService("Players").LocalPlayer.Character[tostring(v.Name)].Attack:FireServer()
+        end
+    end
+end
+
+Page.Toggle({Text = 'Tree Farm', Callback = function(c)
+    cc = c
+    while cc do task.wait()
+        plr.Character.Humanoid:EquipTool(plr.Backpack:FindFirstChild("Hatchet"))
+        tp(getTree().WoodHitPart.CFrame * CFrame.new(0,-3,0))
+        hit()
+    end
+end})
+
+Page.Toggle({Text = 'Auto Sell Logs (Tps u)', Callback = function(d)
+    dd = d
+    while dd do task.wait()
+        tp(game:GetService("Workspace").Lumberjack.HumanoidRootPart.CFrame)
+        fireproximityprompt(game:GetService("Workspace").Lumberjack.ProxPrompt)
+    end
+end})
