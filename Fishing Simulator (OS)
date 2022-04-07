@@ -57,6 +57,10 @@ sect1:AddButton("Get best spear", function()
     game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SetItemData:InvokeServer('jadedcrystal',"Spear","Equipped")
 end)
 
+sect1:AddButton("Get best spear for gems", function()
+    game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SetItemData:InvokeServer('gemstone',"Spear","Equipped")
+end)
+
 local Toggle = sect1:AddToggle("Shark Farm", false, function(a)
     aa = a
     while aa do task.wait()
