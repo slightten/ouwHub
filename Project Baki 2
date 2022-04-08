@@ -1,0 +1,10 @@
+while farm do task.wait()
+    if Settings.TrinketFarm then
+        for i,v in next, game:GetService("Workspace").Game.Trinkets.Spawned:GetDescendants() do
+            if v:IsA"TouchTransmitter" then
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
+            end
+        end
+    end
+end
