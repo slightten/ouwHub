@@ -56,12 +56,13 @@ Main:AddToggle({text = "Auto Lock higher than rare", state = false, callback = f
     Settings['AutoLock'] = a
 end})
 
-Main:AddLabel({text = "Equip spear before toggling"})
+Main:AddLabel({text = "Have spear in 1 slot"})
 
 Main:AddToggle({text = "Shark farm", state = false, callback = function(a)
     aa = a
     while aa do wait()
         pcall(function()
+            game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.SetEquippedItem:InvokeServer(1)
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getEnemy().Hitbox.CFrame * CFrame.new(0,20,0)
             game:GetService("ReplicatedStorage").CloudFrameShared.DataStreams.MonsterHit:FireServer(getEnemy(),tostring(getTool()),true)
             task.spawn(function()
@@ -84,7 +85,7 @@ Main:AddToggle({text = "basically useless", state = false, callback = function(b
 end})
 
 spawn(function()
-    while tasl.wait() do
+    while task.wait() do
         if Settings.AutoLock then
             for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui.Interface.Inventory.Inventory.Frame.Backpack.List.Container:GetDescendants() do
                 if v:IsA"Tool" and v:FindFirstChild("RarityLevel") then
